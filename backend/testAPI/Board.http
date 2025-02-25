@@ -1,0 +1,96 @@
+@baseUrl = http://localhost:3000/api
+
+### Đăng nhập (Login)
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "daoquanghau@gmail.com",
+    "password": "Hau12345"
+}
+
+### Tạo một bảng mới (Board) với Token
+
+POST {{baseUrl}}/boards
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "name": "Test API"
+}
+
+### Lấy danh sách tất cả bảng (Boards)
+GET {{baseUrl}}/boards
+Authorization: Bearer {{login.response.body.token}}
+
+### Lấy chi tiết một bảng cụ thể
+GET {{baseUrl}}/boards/3
+Authorization: Bearer {{login.response.body.token}}
+
+### Cập nhật bảng (Board)
+PUT {{baseUrl}}/boards/3
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "name": "Tên Bảng Mới"
+}
+
+### Xóa bảng (Board)
+DELETE {{baseUrl}}/boards/2
+Authorization: Bearer {{login.response.body.token}}
+
+
+### Tạo danh sách mới (List)
+POST {{baseUrl}}/lists
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "name": "Việc chưa",
+    "board_id": "3"
+}
+
+### Lấy danh sách tất cả List trong Board
+GET {{baseUrl}}/lists/boards/3
+Authorization: Bearer {{login.response.body.token}}
+
+### Tạo thẻ (Card) trong danh sách
+POST {{baseUrl}}/cards
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "list_id": "1",
+    "title": "Học API testing",
+    "description": "Viết file test.http để test API"
+}
+
+### Lấy danh sách Card trong List
+GET {{baseUrl}}/cards/lists/1
+Authorization: Bearer {{login.response.body.token}}
+
+### 1Cập nhật thẻ (Card)
+PUT {{baseUrl}}/cards/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "title": "Học REST API",
+    "description": "Viết file test.http để test API một cách tự động"
+}
+
+### 1 Xóa thẻ (Card)
+DELETE {{baseUrl}}/cards/1
+Authorization: Bearer {{login.response.body.token}}
+
+### Kéo thả Card sang List khác (Cập nhật vị trí)
+PUT {{baseUrl}}/cards/1/move
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "new_list_id": 2,
+    "position": 1
+}
