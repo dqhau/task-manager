@@ -5,9 +5,19 @@ import { getSocketInstance } from "../services/socket.js";
 
 // Đăng ký
 export const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { email, name, password, confirmPassword } = req.body;
 
     try {
+        // Kiểm tra tất cả thông tin có đầy đủ không
+        if (!email || !name || !password || !confirmPassword) {
+            return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin!" });
+        }
+
+        // Kiểm tra mật khẩu xác nhận
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Mật khẩu xác nhận không khớp!" });
+        }
+
         // Kiểm tra email đã tồn tại chưa
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
@@ -19,14 +29,15 @@ export const register = async (req, res) => {
 
         // Tạo user mới
         const newUser = await User.create({
-            name,
             email,
+            name,
             password: hashedPassword,
         });
 
-        res.status(201).json({ message: "Đăng ký thành công!", user: newUser });
+        res.status(201).json({success: "true", message: "Đăng ký thành công!", user: newUser });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi khi đăng ký!", error });
+        console.error("Lỗi server:", error);
+        res.status(500).json({success: "false", message: "Lỗi khi đăng ký!", error: error.message });
     }
 };
 
@@ -49,12 +60,12 @@ export const login = async (req, res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "7d" }
         );
 
-        res.status(200).json({ message: "Đăng nhập thành công!", token });
+        res.status(200).json({success: "true", message: "Đăng nhập thành công!", token });
     } catch (error) {
-        res.status(500).json({ message: "Lỗi khi đăng nhập!", error });
+        res.status(500).json({success: "false", message: "Lỗi khi đăng nhập!", error });
     }
 };
 

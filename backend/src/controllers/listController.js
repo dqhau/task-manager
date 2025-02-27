@@ -18,7 +18,7 @@ export const createList = async (req, res) => {
 
         const list = await List.create({ name, board_id });
 
-        return res.status(201).json({ message: "Tạo danh sách thành công", list });
+        return res.status(201).json({success:"true", message: "Tạo danh sách thành công", list });
     } catch (error) {
         return res.status(500).json({ message: "Lỗi khi tạo danh sách", error: error.message });
     }

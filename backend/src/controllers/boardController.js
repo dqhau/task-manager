@@ -13,7 +13,7 @@ export const createBoard = async (req, res) => {
 
         const board = await Board.create({ name });
 
-        return res.status(201).json({ message: "Tạo bảng thành công", board });
+        return res.status(201).json({success:"true", message: "Tạo bảng thành công", board });
     } catch (error) {
         //vừa ad
         console.error("Error stack:", error.stack);
@@ -67,7 +67,7 @@ export const updateBoard = async (req, res) => {
         board.name = name;
         await board.save();
 
-        return res.status(200).json({ message: "Cập nhật bảng thành công", board });
+        return res.status(200).json({success:"true", message: "Cập nhật bảng thành công", board });
     } catch (error) {
         return res.status(500).json({ message: "Lỗi khi cập nhật bảng", error: error.message });
     }
@@ -87,7 +87,7 @@ export const deleteBoard = async (req, res) => {
 
         await board.destroy();
 
-        return res.status(200).json({ message: "Xóa bảng thành công" });
+        return res.status(200).json({success:"true", message: "Xóa bảng thành công" });
     } catch (error) {
         return res.status(500).json({ message: "Lỗi khi xóa bảng", error: error.message });
     }

@@ -1,13 +1,14 @@
-@baseUrl = http://localhost:3000/api/users
+@baseUrl = http://localhost:5000/api/users
 
 ### Đăng ký tài khoản (Register)
 POST {{baseUrl}}/register
 Content-Type: application/json
 
 {
-    "email": "daoquanghau2003@gmail.com",
-    "password": "Hau12345",
-    "name": "Hậu"
+    "email": "dao@gmail.com",
+    "name": "Hậu",
+    "password": "Hau12345"
+    
 }
 
 ### Đăng nhập (Login)

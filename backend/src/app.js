@@ -15,9 +15,9 @@ const server = createServer(app);
 // Cấu hình CORS
 app.use(
   cors({
-    origin: "*", // frontend domain
+    origin: "http://localhost:3000", // frontend domain
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true, // Cho phép gửi cookie/token qua request
   })
 );
 
